@@ -11,6 +11,11 @@
             background-color: lightblue;
             cursor: pointer;
         }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -40,15 +45,19 @@
             <h2>新規情報追加</h2>
             <label for="newName">名前:</label>
             <input type="text" id="newName" v-model="newEntry.name"><br>
+            <p id="nameError" class="error"></p>
 
             <label for="newCompany">会社名:</label>
             <input type="text" id="newCompany" v-model="newEntry.company"><br>
+            <p id="companyError" class="error"></p>
 
             <label for="newDivision">部署:</label>
             <input type="text" id="newDivision" v-model="newEntry.division"><br>
+            <p id="divisionError" class="error"></p>
 
             <label for="newTitle">役職:</label>
             <input type="text" id="newTitle" v-model="newEntry.title"><br>
+            <p id="titleError" class="error"></p>
 
             <button @click="addNewEntry">作成</button>
         </div>

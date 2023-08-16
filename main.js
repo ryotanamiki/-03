@@ -1,3 +1,19 @@
+function isJapaneseName(name) {
+    const japanesePattern = /^[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}ー・]+$/u;
+    return japanesePattern.test(name);
+}
+
+function isCompanyName(companyName) {
+    return companyName.includes('会社');
+}
+
+function isDivisionName(divisionName) {
+    return divisionName.includes('部');
+}
+
+const allowedTitles = ['主任', '部長', '係長', ''];
+
+
 const app = Vue.createApp({
             data() {
                 return {
@@ -42,10 +58,30 @@ const app = Vue.createApp({
                     }
                 },
                 addNewEntry() {
-                    if (!this.newEntry.name || !this.newEntry.company || !this.newEntry.division || !this.newEntry.title) {
-                        alert('全ての項目を記入してください。');
+                    if (!this.newEntry.name || !this.newEntry.company || !this.newEntry.division) {
+                        alert('未入力の項目があります。');
                         return;
                     }
+
+                    if (!isJapaneseName(this.newEntry.name)) {
+                        nameError.textContent = '名前は日本語のみ入力可能です。'
+                        return;
+                    }
+
+                    if (!isCompanyName(this.newEntry.company)) {
+                        companyError.textContent = '会社名には「会社」という文字を含めてください。'
+                        return;
+                    }
+
+                    if (!isDivisionName(this.newEntry.division)) {
+                        divisionError.textContent = '部署名には「部」を含めて入力してください。'
+                        return;
+                    }
+
+                    if (!allowedTitles.includes(this.newEntry.title)) {
+                        alert('正しい役職を入力してください。');
+                        return;
+    }
 
                     const newId = this.generateNewId();
 
@@ -82,5 +118,3 @@ const app = Vue.createApp({
         });
 
         app.mount('#app');
-
-        
