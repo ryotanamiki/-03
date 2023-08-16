@@ -36,9 +36,25 @@
                 </tr>
             </tbody>
         </table>
+        <div>
+            <h2>新規情報追加</h2>
+            <label for="newName">名前:</label>
+            <input type="text" id="newName" v-model="newEntry.name"><br>
+
+            <label for="newCompany">会社名:</label>
+            <input type="text" id="newCompany" v-model="newEntry.company"><br>
+
+            <label for="newDivision">部署:</label>
+            <input type="text" id="newDivision" v-model="newEntry.division"><br>
+
+            <label for="newTitle">役職:</label>
+            <input type="text" id="newTitle" v-model="newEntry.title"><br>
+
+            <button @click="addNewEntry">作成</button>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.29/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
     <script src="main.js"></script>
 </body>
 

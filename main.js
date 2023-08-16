@@ -3,7 +3,13 @@ const app = Vue.createApp({
                 return {
                     data: [],
                     sortBy: null,
-                    sortDirection: 'asc'
+                    sortDirection: 'asc',
+                    newEntry: {
+                        name: '',
+                        company: '',
+                        division: '',
+                        title: ''
+                    }
                 };
             },
             computed: {
@@ -34,6 +40,35 @@ const app = Vue.createApp({
                         this.sortBy = column;
                         this.sortDirection = 'asc';
                     }
+                },
+                addNewEntry() {
+                    if (!this.newEntry.name || !this.newEntry.company || !this.newEntry.division || !this.newEntry.title) {
+                        alert('全ての項目を記入してください。');
+                        return;
+                    }
+
+                    const newId = this.generateNewId();
+
+                    const newEntry = {
+                        id: newId,
+                        name: this.newEntry.name,
+                        company: this.newEntry.company,
+                        division: this.newEntry.division,
+                        title: this.newEntry.title
+                    };
+
+                    this.data.push(newEntry);
+
+                    this.newEntry = {
+                        name: '',
+                        company: '',
+                        division: '',
+                        title: ''
+                    };
+                },
+                generateNewId() {
+                    const ids = this.data.map(entry => entry.id);
+                    return ids.length > 0 ? Math.max(...ids) + 1 : 1;
                 }
             },
             created() {
