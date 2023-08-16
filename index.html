@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>実務課題03</title>
-    <script src="https://unpkg.com/vue@next"></script>
 
     <style>
         th {
@@ -16,72 +15,31 @@
 </head>
 
 <body>
-    <table id="data-table">
-        <thead>
-            <tr>
-                <th onclick="sortTable(0)">ID</th>
-                <th onclick="sortTable(1)">名前</th>
-                <th onclick="sortTable(2)">会社名</th>
-                <th onclick="sortTable(3)">部署</th>
-                <th onclick="sortTable(4)">役職</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div id="app">
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th @click="sortTable('id')">ID</th>
+                    <th @click="sortTable('name')">名前</th>
+                    <th @click="sortTable('company')">会社名</th>
+                    <th @click="sortTable('division')">部署</th>
+                    <th @click="sortTable('title')">役職</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="entry in sortedData" :key="entry.id">
+                    <td>{{ entry.id }}</td>
+                    <td>{{ entry.name }}</td>
+                    <td>{{ entry.company }}</td>
+                    <td>{{ entry.division }}</td>
+                    <td>{{ entry.title }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <script>
-
-        let data = [];
-
-        fetch('cards.json')
-            .then(response => response.json())
-            .then(jsonData => {
-                data = jsonData;
-                populateTable();
-            })
-            .catch(error => console.error('Error fetching JSON data:', error));
-
-        function populateTable() {
-            const tableBody = document.querySelector('#data-table tbody');
-            tableBody.innerHTML = '';
-            data.forEach(entry => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                <td>${entry.id}</td>
-                <td>${entry.name}</td>
-                <td>${entry.company}</td>
-                <td>${entry.division}</td>
-                <td>${entry.title}</td>
-            `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        function sortTable(columnIndex) {
-            const tableBody = document.querySelector('#data-table tbody');
-            const isAscending = tableBody.dataset.sorted === 'asc';
-            tableBody.dataset.sorted = isAscending ? 'desc' : 'asc';
-
-            data.sort((a, b) => {
-                const aValue = columnIndex === 0 ? a.id : a[Object.keys(a)[columnIndex]];
-                const bValue = columnIndex === 0 ? b.id : b[Object.keys(b)[columnIndex]];
-                if (columnIndex === 0) {
-                    return isAscending ? aValue - bValue : bValue - aValue;
-                } else {
-                    if (isAscending) {
-                        return aValue.localeCompare(bValue);
-                    } else {
-                        return bValue.localeCompare(aValue);
-                    }
-                }
-            });
-
-            populateTable();
-        }
-
-
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.29/dist/vue.global.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>
